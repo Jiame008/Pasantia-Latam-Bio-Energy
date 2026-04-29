@@ -1,0 +1,29 @@
+import pandas as pd
+import json
+
+# Load JSON data
+with open('/content/lead_output_1.json') as file:
+    data = json.load(file)
+
+# Lista 2D: cada fila será [nombre, perfil, empresa1, empresa2, ...]
+Data_list = []
+
+for user in data:
+    fila = []
+
+    # URL del perfil
+    fila.append(user.get("url", ""))
+    # Nombre
+    fila.append(user.get("name", ""))
+
+
+    Data_list.append(fila)
+
+# Convertir a DataFrame
+df = pd.DataFrame(Data_list)
+
+# Renombrar columnas dinámicamente
+df.columns = ["Profile_URL", "Name"]
+
+# Exportar a Excel
+df.to_excel("excel.xlsx", index=False)
